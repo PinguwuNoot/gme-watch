@@ -1,1 +1,1 @@
-Short script that notes when the GME stock changes by +-5% since the last checked price.
+Short script that sends an SMS text message using the Twilio API whenever a specified stock increases or decreases by a certain percentage.
