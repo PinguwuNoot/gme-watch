@@ -3,6 +3,7 @@ import json
 from json.decoder import JSONDecodeError
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 import time
 from datetime import datetime
 import config
@@ -12,7 +13,9 @@ from twilio.rest import Client
 # DRIVER = webdriver.Chrome(PATH)
 CLIENT = Client(config.ACCOUNT_SID, config.AUTH_TOKEN)
 URL = "https://tradingview.com"
-DRIVER = webdriver.Chrome() # path of chromedriver already in current working directory
+OPTIONS = Options()
+OPTIONS.add_argument("--headless")
+DRIVER = webdriver.Chrome(options=OPTIONS) # path of chromedriver already in current working directory
 DELAY = 1
 # stock name, baseline percentage difference for notification
 GME, GME_PCT = 'GME', 5
