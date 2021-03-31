@@ -1,4 +1,5 @@
 # import pathlib
+import os
 import json
 from json.decoder import JSONDecodeError
 from selenium import webdriver
@@ -53,13 +54,13 @@ def print_data():
 def main():
     global data
     data = {}
-    with open('data.json', 'r+') as file:
+    with open(os.path.join(config.CUR_DIR, 'data.json'), 'r+') as file:
         try:
             data = json.load(file)
         except JSONDecodeError:
             data = {}
     check_stocks()
-    with open('data.json', 'w') as file:
+    with open(os.path.join(config.CUR_DIR, 'data.json'), 'w') as file:
         json.dump(data, file)
 
 if __name__ == "__main__":
