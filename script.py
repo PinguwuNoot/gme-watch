@@ -17,7 +17,7 @@ URL = "https://tradingview.com"
 OPTIONS = Options()
 OPTIONS.add_argument("--headless")
 DRIVER = webdriver.Chrome(options=OPTIONS) # path of chromedriver already in current working directory
-DELAY = 1
+DELAY = 1.5
 # stock name, baseline percentage difference for notification
 GME, GME_PCT = 'GME', 5
 VTI, VTI_PCT = 'VTI', 2
@@ -54,11 +54,11 @@ def print_data():
 def main():
     global data
     data = {}
-    with open(os.path.join(config.CUR_DIR, 'data.json'), 'r+') as file:
-        try:
+    try:
+        with open(os.path.join(config.CUR_DIR, 'data.json'), 'r') as file:
             data = json.load(file)
-        except JSONDecodeError:
-            data = {}
+    except (JSONDecodeError, FileNotFoundError):
+        data = {}
     check_stocks()
     with open(os.path.join(config.CUR_DIR, 'data.json'), 'w') as file:
         json.dump(data, file)
