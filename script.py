@@ -13,15 +13,15 @@ from twilio.rest import Client
 # PATH = pathlib.Path('chromedriver.exe').absolute()
 # DRIVER = webdriver.Chrome(PATH)
 CLIENT = Client(config.ACCOUNT_SID, config.AUTH_TOKEN)
-URL = "https://tradingview.com"
+URL = "https://ca.finance.yahoo.com"
 OPTIONS = Options()
-OPTIONS.add_argument("--headless")
+# OPTIONS.add_argument("--headless")
 DRIVER = webdriver.Chrome(options=OPTIONS)
 DELAY = 1.5
 # stock name, baseline percentage difference for notification
 GME, GME_PCT = 'GME', 5
 VTI, VTI_PCT = 'VTI', 2
-ETH, ETH_PCT = 'ETHUSD', 5
+ETH, ETH_PCT = 'ETH-USD', 5
 
 def check_stocks():
     try:
@@ -35,11 +35,12 @@ def check_stocks():
         send_message("An error has occurred.")
 
 def check_stock(name, percentage):
-    search = DRIVER.find_element_by_name("query")
+    search = DRIVER.find_element_by_xpath('//*[@id="yfin-usr-qry"]')
     search.send_keys(name)
+    time.sleep(DELAY)
     search.send_keys(Keys.RETURN)
     time.sleep(DELAY)
-    curr_price = float(DRIVER.find_element_by_xpath('//*[@id="anchor-page-1"]/div/div[3]/div[1]/div/div/div/div[1]/div[1]').text)
+    curr_price = float(DRIVER.find_element_by_xpath('//*[@id="quote-header-info"]/div[3]/div[1]/div/span[1]').text.replace(",", ""))
     try:
         last_price = data[name][ list(data[name])[-1] ][0]
         pct_change = 100*(curr_price/last_price - 1) # actual percentage difference between current and last noted price
