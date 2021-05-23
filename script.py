@@ -15,7 +15,7 @@ from twilio.rest import Client
 CLIENT = Client(config.ACCOUNT_SID, config.AUTH_TOKEN)
 URL = "https://ca.finance.yahoo.com"
 OPTIONS = Options()
-OPTIONS.add_argument("--headless")
+# OPTIONS.add_argument("--headless")
 DRIVER = webdriver.Chrome(options=OPTIONS)
 DELAY = 1.5
 # stock name, baseline percentage difference for notification
@@ -30,11 +30,13 @@ def check_stocks():
         check_stock(VTI, VTI_PCT)
         check_stock(ETH, ETH_PCT)
         DRIVER.quit()
-    except:
+    except Exception as e:
         DRIVER.quit()
+        print(e)
         send_message("An error has occurred.")
 
 def check_stock(name, percentage):
+    time.sleep(DELAY)
     search = DRIVER.find_element_by_xpath('//*[@id="yfin-usr-qry"]')
     search.send_keys(name)
     time.sleep(DELAY)
