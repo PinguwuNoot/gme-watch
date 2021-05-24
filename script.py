@@ -17,7 +17,7 @@ URL = "https://ca.finance.yahoo.com"
 OPTIONS = Options()
 OPTIONS.add_argument("--headless")
 DRIVER = webdriver.Chrome(options=OPTIONS)
-DELAY = 1.5
+DELAY = 2
 # stock name, baseline percentage difference for notification
 GME, GME_PCT = 'GME', 5
 VTI, VTI_PCT = 'VTI', 2
@@ -48,11 +48,11 @@ def check_stock(name, percentage):
         pct_change = 100*(curr_price/last_price - 1) # actual percentage difference between current and last noted price
         if curr_price <= last_price * (100 - percentage)/100:
             data[name][str(datetime.now())] = [curr_price, pct_change]
-            send_message(f"{name} has dropped by {pct_change:.2f}%")
+            send_message(f"{name} has dropped by {pct_change:.2f}% to ${curr_price}")
             # CLIENT.messages.create(from_=config.PHONE_FROM, to=config.PHONE_TO, body=f"{name} has dropped by {pct_change:.2f}%")
         elif curr_price >= last_price * (100 + percentage)/100:
             data[name][str(datetime.now())] = [curr_price, pct_change]
-            send_message(f"{name} has increased by {pct_change:.2f}%")
+            send_message(f"{name} has increased by {pct_change:.2f}% to ${curr_price}")
             # CLIENT.messages.create(from_=config.PHONE_FROM, to=config.PHONE_TO, body=f"{name} has increased by {pct_change:.2f}%")
     except KeyError:
         data[name] = {str(datetime.now()): [curr_price, 0]}
