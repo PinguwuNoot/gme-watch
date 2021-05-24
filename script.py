@@ -15,7 +15,7 @@ from twilio.rest import Client
 CLIENT = Client(config.ACCOUNT_SID, config.AUTH_TOKEN)
 URL = "https://ca.finance.yahoo.com"
 OPTIONS = Options()
-# OPTIONS.add_argument("--headless")
+OPTIONS.add_argument("--headless")
 DRIVER = webdriver.Chrome(options=OPTIONS)
 DELAY = 1.5
 # stock name, baseline percentage difference for notification
